@@ -2,8 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const { connectToMongoDB } = require('./connect.js');
+
 const { handleRedirectUrl } = require('./controller/url.controller.js');
-const { restrictToLogginUser } = require('./middlewares/auth.middleware.js');
+
+const { restrictToLogginUser, checkAuth } = require('./middlewares/auth.middleware.js');
 
 
 const router = require('./routes/url.route.js');
@@ -26,10 +28,9 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.set("views", path.resolve("./views"))
 
-app.use("/", staticRouter);
+app.use("/", checkAuth, staticRouter);
 app.use("/url", restrictToLogginUser, router);
 app.get("/:shortId", handleRedirectUrl);
-
 app.use("/user", auth);
 
 

@@ -14,9 +14,10 @@ async function handleGenerateNewShortUrl(req, res) {
     await URL.create({
         shortId: shortID,
         redirectUrl: url,
-        visitHistory: []
+        visitHistory: [],
+        createdBy: req.user._id,
     });
-    return res.render('home',{ id: shortID })
+    return res.render('home', { id: shortID })
     // return res.status(200).json({ id: shortID });
 
 }

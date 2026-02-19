@@ -13,6 +13,17 @@ async function restrictToLogginUser(req, res, next) {
     req.user = user;
     next();
 }
+
+async function checkAuth(req, res, next) {
+    const userId = req.cookies?.uid;
+
+    const user = getUser(userId);
+
+    req.user = user;
+    next();
+}
+
 module.exports = {
     restrictToLogginUser,
+    checkAuth,
 }
