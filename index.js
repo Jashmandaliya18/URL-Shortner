@@ -2,9 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const { connectToMongoDB } = require('./connect.js');
-const router = require('./routes/url.route.js');
 const { handleRedirectUrl } = require('./controller/url.controller.js');
+
+
+const router = require('./routes/url.route.js');
 const staticRouter = require("./routes/staticRouter.route.js");
+const auth = require("./routes/user.route.js")
 
 const app = express();
 const PORT = 8001;
@@ -23,6 +26,8 @@ app.set("views", path.resolve("./views"))
 app.use("/", staticRouter);
 app.use("/url", router);
 app.get("/:shortId", handleRedirectUrl);
+
+app.use("/user", auth);
 
 
 app.listen(PORT, () => {
